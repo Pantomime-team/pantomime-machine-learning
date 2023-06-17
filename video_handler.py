@@ -1,7 +1,8 @@
-import torch
 import cv2
 import numpy as np
 from constants import classes
+import argparse
+import torch
 
 path_to_model = "mvit32-2.pt"
 path_to_output_file = "subtitles.txt"
@@ -75,6 +76,18 @@ def video_process(path_to_input_video):
 
         text = "  ".join(prediction_list)
         output_text = text
+
     cap.release()
     return output_text
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input_video", help="path to input video")
+    args = parser.parse_args()
+    path_to_input_video = args.input_video
+    output_text = video_process(path_to_input_video)
+    with open(path_to_output_file, "w", encoding='utf-8') as f:
+        f.write(output_text)
+
 
