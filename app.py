@@ -3,17 +3,19 @@ import os
 
 app = Flask(__name__)
 
-
 @app.route('/predict', methods=['POST'])
 def predict():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(uploaded_file.filename)
         os.system(f"python video_handler.py --input_video {uploaded_file.filename}")
-        with open("output.txt", "r", encoding='utf-8') as f:
+
+        with open("subtitles.txt", "r", encoding='utf-8') as f:
             prediction = f.read()
+
         os.remove(uploaded_file.filename)
-        os.remove("output.txt")
+        os.remove("subtitles.txt")
+        
         return jsonify(prediction)
 
 
