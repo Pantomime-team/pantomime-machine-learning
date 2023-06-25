@@ -4,17 +4,16 @@ from constants import classes
 import argparse
 import torch
 
-path_to_model = "mvit32-2.pt"
+path_to_model = "swin16-3.pt"
 path_to_output_file = "subtitles.txt"
 
 model = torch.jit.load(path_to_model)
 model.eval()
 window_size = 16  # from model name
 threshold = 0.5
-frame_interval = 1
+frame_interval = 3
 mean = [123.675, 116.28, 103.53]
 std = [58.395, 57.12, 57.375]
-
 
 def resize(im, new_shape=(224, 224)):
     shape = im.shape[:2]  # current shape [height, width]
@@ -89,5 +88,3 @@ if __name__ == '__main__':
     output_text = video_process(path_to_input_video)
     with open(path_to_output_file, "w", encoding='utf-8') as f:
         f.write(output_text)
-
-
